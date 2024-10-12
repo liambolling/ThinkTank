@@ -10,10 +10,9 @@ export default function StepOne({ onNextStep, isActive }) {
                         Step X
                     </h6>
                     <h1 className="mb-3">
-                        Let's make a chat room
+                        Let's start a Think tank
                     </h1>
                     <p className="mb-5 text-body-secondary">
-                        Understanding the type of team you're creating help us to ask all the right questions.
                     </p>
                 </div>
             </div>
@@ -37,7 +36,7 @@ export default function StepOne({ onNextStep, isActive }) {
                                 <a href="team-overview.html">HIRING</a>
                             </h2>
                             <p class="card-text text-body-secondary">
-                                Launchday is a SaaS website builder with a focus on quality, easy to build product sites.
+                            Simulate a hiring committee discussion with HR professionals, department heads, and industry experts
                             </p>
                         </div>
                     </div>
@@ -61,7 +60,7 @@ export default function StepOne({ onNextStep, isActive }) {
                                 <a href="team-overview.html">PRODUCT FEEDBACK</a>
                             </h2>
                             <p class="card-text text-body-secondary">
-                                Launchday is a SaaS website builder with a focus on quality, easy to build product sites.
+                            Engage in a simulated product review session with UX designers, product managers, and target users
                             </p>
                         </div>
                     </div>
@@ -86,7 +85,7 @@ export default function StepOne({ onNextStep, isActive }) {
                                 <a href="team-overview.html">PITCH DECK</a>
                             </h2>
                             <p class="card-text text-body-secondary">
-                                Launchday is a SaaS website builder with a focus on quality, easy to build product sites.
+                            Present your pitch deck to a virtual panel of investors, startup founders, and industry analysts
                             </p>
                         </div>
                     </div>
