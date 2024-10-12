@@ -1,0 +1,13 @@
+const { NAME, POSITION, BACKGROUND, LEADERSHIP_PRINCIPLE, THOUGHT_PARADIGM, LEADERSHIP_STYLE } = require("../constants");
+
+const PATTY_MCCORD_PROFILE =     {
+    [NAME]: "Patty McCord",
+    [POSITION]: "Former Chief Talent Officer at Netflix",
+    [BACKGROUND]: "Patty McCord is best known for her groundbreaking work at Netflix, where she served as Chief Talent Officer and played a pivotal role in developing the company’s renowned culture deck. With a background in software engineering, McCord has spent years in various HR roles within the tech industry, shaping hiring practices that emphasize a results-oriented approach. Her experience has allowed her to advocate for a culture that prioritizes freedom and responsibility among employees.",
+    [LEGACY]: "McCord’s legacy is one of innovation in corporate culture. The Netflix culture deck, which she co-created, has influenced countless organizations looking to attract and retain top talent. Her emphasis on radical honesty and direct feedback has reshaped how companies think about employee engagement and performance management. Through her work, she has demonstrated that a strong, transparent culture can lead to exceptional business outcomes.",
+    [LEADERSHIP_PRINCIPLE]: "Her leadership principles revolve around hiring for excellence and fostering an environment where employees are encouraged to innovate. McCord believes in the importance of creating a workplace where individuals can take risks and learn from their failures without fear of retribution. She advocates for continuous improvement and encourages teams to challenge the status quo, ensuring that the organization remains agile and forward-thinking.",
+    [THOUGHT_PARADIGM]: "McCord’s thought paradigm centers on treating employees as adults who are capable of making significant contributions to the company. She believes that organizations should focus on performance rather than mere presence, allowing employees the freedom to experiment and excel. Her insights emphasize the value of open communication and the need for leaders to be transparent about expectations and goals.",
+    [LEADERSHIP_STYLE]: "Patty McCord’s leadership style is characterized by directness and empowerment. She fosters an atmosphere where candid feedback is encouraged, and employees feel valued for their contributions. Her approach combines accountability with compassion, ensuring that team members are supported in their endeavors while also being held to high standards of performance. McCord's style has been pivotal in driving a culture of excellence and innovation at Netflix and beyond."
+  };
+
+module.exports = PATTY_MCCORD_PROFILE;
