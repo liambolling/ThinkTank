@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Image from 'next/image';
 
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -13,12 +12,10 @@ const teamMembers = [
 ];
 
 export default function TeamMembersPage() {
-
-
   const handleContinue = async () => {
     try {
       const functions = getFunctions();
-      const createScript = httpsCallable(functions, 'createScript');
+      const createScript = httpsCallable(functions, 'createTeam');
       const topic = "Should we stop restocking the fridge with eggs?"
       const participants = [
         {
@@ -60,7 +57,6 @@ export default function TeamMembersPage() {
   return (
     <div className="main-content">
       <div className="container-lg">
-
 
         <div className="row justify-content-center py-6">
           <div className="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
@@ -136,8 +132,6 @@ export default function TeamMembersPage() {
           </div>
 
         </div>
-
-
 
       </div>
     </div>
