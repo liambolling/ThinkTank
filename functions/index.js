@@ -8,7 +8,6 @@ const OPENAI_API_KEY = 'sk-proj-jcrhleSTNiKPPEr4HLL-QpTzCt0fsUqUGwI69BN9b2QM4Qqi
 const OPENAI_MODEL = 'chatgpt-4o-latest';
 
 
-
 const { createScript } = require('./createScript.js');
 exports.createScript = createScript;
 
@@ -19,7 +18,7 @@ const openaiClient = new OpenAIApi({
 });
 
 const validateRequestBody = (request, response) => {
-    const { Tank, JobDescription, Links, VCList } = request.body;
+    const { Tank, JobDescription, Description, Links, VCList } = request.body.data;
     
     // Validate required fields
     if (!Tank) {
@@ -33,7 +32,7 @@ const validateRequestBody = (request, response) => {
     if (Tank === TAlENT_TANK_TYPE) {
         // requires JobDescription
         if (!JobDescription) {
-            return response.status(BAD_REQUEST_STATUS_CODE).send('JobDescription is required for Talent tank');
+            return response.status(BAD_REQUEST_STATUS_CODE).send('Job Description is required for Talent tank');
         }
     }
 
@@ -49,19 +48,26 @@ const validateRequestBody = (request, response) => {
         if (!Links) {
             return response.status(BAD_REQUEST_STATUS_CODE).send('Links are required for Product tank');
         }
+
+        if (!Description) {
+            return response.status(BAD_REQUEST_STATUS_CODE).send('A Description is required for Product tank');
+        }
     }
 
     return null;
 }
 
-const constructPrompt = (Tank, JobDescription, Links, VCList) => {
+const constructPrompt = (Tank, JobDescription, Description, Links, VCList) => {
     // get the initial prompt based on the tank type
-    const tankPrompt = constructTankPrompt(Tank, JobDescription, Links, VCList);
+    const tankPrompt = constructTankPrompt(Tank, JobDescription, Description, Links, VCList);
+    
+    console.log(`Finished constructing ${Tank} Tank Prompt`);
     return tankPrompt;
 }
 
-
-exports.startTank = onRequest(async (req, res) => {
+exports.createTeam = onRequest(async (req, res) => {
+    console.log(`CREATE TEAM Request\n${JSON.stringify(req.body, null, 4)}`);
+    
     // Ensure the function is only invoked with POST requests
     if (req.method !== 'POST') {
         return res.status(ERROR_STATUS_CODE).send('Method Not Allowed');
@@ -73,12 +79,11 @@ exports.startTank = onRequest(async (req, res) => {
         return requestValidationResponse;
     }
 
-    const { Tank, JobDescription, Links, VCList } = req.body;
+    const { Tank, JobDescription, Description, Links, VCList } = req.body.data;
     
     // Construct the complete message to send to OpenAI
-    const prompt = constructPrompt(Tank, JobDescription, Links, VCList);
+    const prompt = constructPrompt(Tank, JobDescription, Description, Links, VCList);
     try {
-        // TODO - ask Liam
         const openAIResponse = await openaiClient.chat.completions.create({
             model: OPENAI_MODEL,
             temperature: 1,
@@ -91,8 +96,14 @@ exports.startTank = onRequest(async (req, res) => {
         // Extract the reply from OpenAI's response
         const reply = openAIResponse.choices[0].message;
 
-        // Send the response back to the client
-        return res.status(SUCCESS_STATUS_CODE).json({ reply });
+        const result = {
+            data: { 
+                success: SUCCESS_STATUS_CODE, 
+                message: reply
+            }
+        };
+
+        res.status(SUCCESS_STATUS_CODE).send(result);
     } catch (error) {
         return res.status(ERROR_STATUS_CODE).send(`Failed to start ${Tank.toLowerCase()} tank: ${error}`);
     }

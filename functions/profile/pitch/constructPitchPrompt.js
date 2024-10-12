@@ -46,7 +46,7 @@ const constructPitchPrompt = (VCList, Links) => {
          "content": [
            {
              "type": "text",
-             "text": `Additional Context: Venture Capital firms I'd like to target for this pitch are: ${VCList.join(', ')}`
+             "text": `Additional Context: Venture Capital firms I'd like to target for this pitch are: ${VCList}`
            }
          ]
        },

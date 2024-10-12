@@ -4,7 +4,7 @@ const { constructPitchPrompt } = require("./pitch/constructPitchPrompt");
 const { constructProductPrompt } = require("./product/constructProductPrompt");
 
 // TODO - fix logic
-const constructTankPrompt = (Tank, JobDescription, Links, VCList) => {
+const constructTankPrompt = (Tank, JobDescription, Description, Links, VCList) => {
    if (Tank === TAlENT_TANK_TYPE) {
     return constructTalentPrompt(JobDescription, Links);
    }
@@ -14,7 +14,7 @@ const constructTankPrompt = (Tank, JobDescription, Links, VCList) => {
    }
 
    else if (Tank === PRODUCT_TANK_TYPE) {
-    return constructProductPrompt(Links);
+    return constructProductPrompt(Links, Description);
    }
 
    else {

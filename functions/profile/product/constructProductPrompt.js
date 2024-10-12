@@ -1,6 +1,6 @@
-const constructProductPrompt = (Links) => {
+const constructProductPrompt = (Links, Description) => {
   // layer on any links to the prompt
-  let linkPrompt = "";
+  let linkPrompt = "";  
   if (Links && Array.isArray(Links) && Links.length > 0) {
       linkPrompt += `
           \n\nHere are some links to give you more context of the product I need advice for:
@@ -31,6 +31,15 @@ return  {
     }
   ]
 },
+{
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": `Additional Context: Here is a description of the product I need feedback on: ${Description}`,
+      }
+    ]
+  },
 {
   "role": "user",
   "content": [

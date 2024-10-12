@@ -83,7 +83,7 @@ export default function StepOne({ onNextStep, isActive }) {
                                 />
                             </div>
                             <h2 class="card-title">
-                                <a href="team-overview.html">PITCH DEC</a>
+                                <a href="team-overview.html">PITCH DECK</a>
                             </h2>
                             <p class="card-text text-body-secondary">
                                 Launchday is a SaaS website builder with a focus on quality, easy to build product sites.

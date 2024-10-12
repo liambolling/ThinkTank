@@ -1,63 +1,95 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { PITCH_TANK_TYPE } from '../../functions/util/constants';
 
+const functions = getFunctions();
+const createTeamFunction = httpsCallable(functions, 'createTeam');
 
 export default function StepPitchDeckRoast({ onPreviousStep }) {
-
+    const [file, setFile] = useState(null); // State for pitch deck file
+    const [targetVCs, setTargetVCs] = useState(''); // State for target VCs
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
     const handleSubmit = async () => {
+        if (!file || !targetVCs) {
+            alert("Please upload a pitch deck and enter target VCs!");
+            return;
+        }
+
         setIsLoading(true);
 
-        // Simulate a Firebase function call
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('targetVCs', targetVCs);
 
-        // Navigate to the team-members page
-        router.push('/team-members');
+            // Call Firebase function with FormData
+            await createTeamFunction({
+                Tank: PITCH_TANK_TYPE,
+                file: formData.get('file'),
+                VCList: formData.get('targetVCs'),
+            });
+
+            // Navigate to the team-members page on success
+            router.push('/team-members');
+        } catch (error) {
+            console.error("Error creating team:", error);
+            alert("There was an error setting up the team. Please try again!");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
         <div className="tab-pane fade show active" id="wizardStepPitchDeck" role="tabpanel" aria-labelledby="wizardTabPitchDeck">
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
-                    <h6 className="mb-4 text-uppercase text-body-secondary">
-                        Pitch Deck Roast
-                    </h6>
-                    <h1 className="mb-3">
-                        Let's review your pitch deck
-                    </h1>
+                    <h6 className="mb-4 text-uppercase text-body-secondary">Pitch Deck Review</h6>
+                    <h1 className="mb-3">Let's review your pitch deck</h1>
                     <p className="mb-5 text-body-secondary">
-                        Upload your pitch deck and tell us about your target VC to get personalized feedback.
+                        Upload your pitch deck and tell us about your target VC(s) to get personalized feedback.
                     </p>
                 </div>
             </div>
 
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8">
+                    {/* File upload input */}
                     <div className="mb-5">
                         <label className="form-label">Upload your pitch deck</label>
                         <div className="card">
                             <div className="card-body">
-                                <div className="dropzone dropzone-multiple" data-dropzone='{"url": "https://"}'>
-                                    <div className="fallback">
-                                        <div className="form-group">
-                                            <label className="form-label" htmlFor="pitchDeckUpload">Choose file</label>
-                                            <input className="form-control" type="file" id="pitchDeckUpload" />
-                                        </div>
-                                    </div>
-                                    <div className="dz-message" data-dz-message>
-                                        <span>Drop your pitch deck here or click to upload</span>
-                                    </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="pitchDeckUpload">Choose file</label>
+                                    <input
+                                        className="form-control"
+                                        type="file"
+                                        id="pitchDeckUpload"
+                                        onChange={handleFileChange}
+                                        accept=".pdf,.ppt,.pptx"
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    {/* Target VCs input */}
                     <div className="mb-5">
-                        <label className="form-label" htmlFor="targetVC">Target VC (optional)</label>
-                        <input type="text" className="form-control" id="targetVC" placeholder="Enter the name of your target VC" />
+                        <label className="form-label" htmlFor="targetVC">Target VCs</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="targetVC"
+                            placeholder="Enter the name of your target VC(s)"
+                            value={targetVCs}
+                            onChange={(e) => setTargetVCs(e.target.value)}
+                        />
                         <small className="form-text text-body-secondary mt-2">
                             Providing a target VC helps us tailor our feedback to their specific preferences and requirements.
                         </small>

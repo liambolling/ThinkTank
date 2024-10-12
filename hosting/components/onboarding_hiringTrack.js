@@ -1,22 +1,42 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { TAlENT_TANK_TYPE } from '../../functions/util/constants';
+
+
+const functions = getFunctions();
+const createTeamFunction = httpsCallable(functions, 'createTeam');
 
 export default function StepHiringTrack({ onPreviousStep, isActive }) {
-
+    const [links, setLinks] = useState(''); // State for List of Links
+    const [jobDescription, setJobDescription] = useState(''); // State for Job Description
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async () => {
+        if (!links || !jobDescription) {
+            alert("Please fill in all required fields");
+            return;
+        }
+
         setIsLoading(true);
+        try {
+            // Call Firebase function with the inputs
+            await createTeamFunction({
+                Tank: TAlENT_TANK_TYPE,
+                Links: links,
+                JobDescription: jobDescription,
+            });
 
-        // Simulate a Firebase function call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Navigate to the team-members page
-        router.push('/team-members');
+            // Navigate to the team-members page on success
+            router.push('/team-members');
+        } catch (error) {
+            console.error("Error creating team:", error);
+            alert("There was an error setting up the team. Please try again!");
+        } finally {
+            setIsLoading(false);
+        }
     };
-
 
     return (
         <div className={`tab-pane fade ${isActive ? 'show active' : ''}`} id="wizardStepHiring" role="tabpanel" aria-labelledby="wizardTabHiring">
@@ -29,59 +49,51 @@ export default function StepHiringTrack({ onPreviousStep, isActive }) {
                         HIRING
                     </h1>
                     <p className="mb-5 text-body-secondary">
-                        Understanding the type of team you're creating help us to ask all the right questions.
+                        Understanding the type of team you're creating helps us ask all the right questions.
                     </p>
                 </div>
             </div>
 
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8">
+                    {/* List of Links input */}
                     <div className="mb-5">
-                        <label className="form-label" htmlFor="hiringQuestion">What do you want to do with:</label>
-                        <input type="text" className="form-control" id="hiringQuestion" placeholder="Should we hire this candidate" />
+                        <label className="form-label" htmlFor="listOfLinks">Links</label>
+                        <textarea
+                            className="form-control"
+                            id="listOfLinks"
+                            rows="3"
+                            placeholder="Provide any links that are relevant to the role you're hiring for"
+                            value={links}
+                            onChange={(e) => setLinks(e.target.value)}
+                            required
+                        ></textarea>
                     </div>
 
-                    <div className="mb-5">
-                        <label className="form-label">Upload Resume</label>
-                        <div className="dropzone dropzone-multiple dz-clickable" data-dropzone='{"url": "/"}'>
-                            <div className="fallback">
-                                <div className="custom-file">
-                                    <input type="file" className="custom-file-input" id="resumeUpload" />
-                                    <label className="custom-file-label" htmlFor="resumeUpload">Choose file</label>
-                                </div>
-                            </div>
-                            <div className="dz-default dz-message">
-                                <button className="dz-button" type="button">Drop resume here or click to upload</button>
-                            </div>
-                        </div>
-                    </div>
-
+                    {/* Job Description input */}
                     <div className="mb-5">
                         <label className="form-label" htmlFor="jobDescription">Job Description</label>
-                        <textarea className="form-control" id="jobDescription" rows="4"></textarea>
+                        <textarea
+                            className="form-control"
+                            id="jobDescription"
+                            rows="4"
+                            placeholder="Enter the job description"
+                            value={jobDescription}
+                            onChange={(e) => setJobDescription(e.target.value)}
+                            required
+                        ></textarea>
                     </div>
 
-                    <div className="mb-5">
-                        <label className="form-label" htmlFor="interviewFeedback">Interview Feedback (Optional)</label>
-                        <textarea className="form-control" id="interviewFeedback" rows="3"></textarea>
-                    </div>
+                    <hr className="my-5"></hr>
 
-                    <div className="mb-5">
-                        <label className="form-label" htmlFor="companyWebsite">Company Website (Optional)</label>
-                        <input type="url" className="form-control" id="companyWebsite" placeholder="https://example.com" />
-                    </div>
-
-
-                    <hr class="my-5"></hr>
-
-                    <div class="nav row align-items-center">
-                        <div class="col-auto">
+                    <div className="nav row align-items-center">
+                        <div className="col-auto">
                             <button className="btn btn-lg btn-white" type="button" onClick={onPreviousStep}>
                                 Back
                             </button>
                         </div>
-                        <div class="col text-center">
-                            <h6 class="text-uppercase text-body-secondary mb-0">Step 2 of 3</h6>
+                        <div className="col text-center">
+                            <h6 className="text-uppercase text-body-secondary mb-0">Step 2 of 3</h6>
                         </div>
                         <div className="col-auto">
                             <button
@@ -102,7 +114,6 @@ export default function StepHiringTrack({ onPreviousStep, isActive }) {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
