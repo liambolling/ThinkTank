@@ -7,7 +7,7 @@ import { TAlENT_TANK_TYPE } from '../../functions/util/constants';
 const functions = getFunctions();
 const createTeamFunction = httpsCallable(functions, 'createTeam');
 
-export default function StepHiringTrack({ onPreviousStep, isActive }) {
+export default function StepHiringTrack({ onPreviousStep, isActive, onComplete  }) {
     const [links, setLinks] = useState(''); // State for List of Links
     const [jobDescription, setJobDescription] = useState(''); // State for Job Description
     const [isLoading, setIsLoading] = useState(false);
@@ -22,14 +22,24 @@ export default function StepHiringTrack({ onPreviousStep, isActive }) {
         setIsLoading(true);
         try {
             // Call Firebase function with the inputs
-            await createTeamFunction({
+            var result = await createTeamFunction({
                 Tank: TAlENT_TANK_TYPE,
                 Links: links,
                 JobDescription: jobDescription,
             });
 
-            // Navigate to the team-members page on success
-            router.push('/team-members');
+            const messageContent = JSON.parse(result.data.message.content);
+        console.log(messageContent);
+        console.log(messageContent.personas);
+
+            
+
+            // Assuming the result contains the team members
+            onComplete(messageContent.personas);
+
+            // Navigate to the generated bots page on success
+            router.push('/start?step=generatedBots');
+
         } catch (error) {
             console.error("Error creating team:", error);
             alert("There was an error setting up the team. Please try again!");

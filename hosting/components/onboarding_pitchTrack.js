@@ -6,7 +6,7 @@ import { PITCH_TANK_TYPE } from '../../functions/util/constants';
 const functions = getFunctions();
 const createTeamFunction = httpsCallable(functions, 'createTeam');
 
-export default function StepPitchDeckRoast({ onPreviousStep }) {
+export default function StepPitchDeckRoast({ onPreviousStep, onComplete }) {
     const [file, setFile] = useState(null); // State for pitch deck file
     const [targetVCs, setTargetVCs] = useState(''); // State for target VCs
     const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +36,12 @@ export default function StepPitchDeckRoast({ onPreviousStep }) {
                 VCList: formData.get('targetVCs'),
             });
 
-            // Navigate to the team-members page on success
-            router.push('/team-members');
+            // Assuming the result contains the team members
+            onComplete(result.data.teamMembers);
+
+            // Navigate to the generated bots page on success
+            router.push('/start?step=generatedBots');
+
         } catch (error) {
             console.error("Error creating team:", error);
             alert("There was an error setting up the team. Please try again!");
@@ -47,7 +51,7 @@ export default function StepPitchDeckRoast({ onPreviousStep }) {
     };
 
     return (
-        <div className="tab-pane fade show active" id="wizardStepPitchDeck" role="tabpanel" aria-labelledby="wizardTabPitchDeck">
+        <div className={`tab-pane fade ${isActive ? 'show active' : ''}`} id="wizardStepPitchDeck" role="tabpanel" aria-labelledby="wizardTabPitchDeck">
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
                     <h6 className="mb-4 text-uppercase text-body-secondary">Pitch Deck Review</h6>

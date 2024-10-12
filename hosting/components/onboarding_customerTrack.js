@@ -6,7 +6,7 @@ import { PRODUCT_TANK_TYPE } from '../../functions/util/constants';
 const functions = getFunctions();
 const createTeamFunction = httpsCallable(functions, 'createTeam');
 
-export default function StepCustomerTrack({ onPreviousStep }) {
+export default function StepCustomerTrack({ onPreviousStep, onComplete }) {
     const [links, setLinks] = useState(''); // State for list of links
     const [file, setFile] = useState(null); // State for file upload
     const [description, setDescription] = useState(''); // State for description text
@@ -39,8 +39,12 @@ export default function StepCustomerTrack({ onPreviousStep }) {
                 Description: formData.get('description'),
             });
 
-            // Navigate to the team-members page on success
-            router.push('/team-members');
+            // Assuming the result contains the team members
+            onComplete(result.data.teamMembers);
+
+            // Navigate to the generated bots page on success
+            router.push('/start?step=generatedBots');
+
         } catch (error) {
             console.error("Error creating team:", error);
             alert("There was an error setting up the team. Please try again!");
@@ -50,7 +54,7 @@ export default function StepCustomerTrack({ onPreviousStep }) {
     };
 
     return (
-        <div className="tab-pane fade show active" id="wizardStepCustomer" role="tabpanel" aria-labelledby="wizardTabCustomer">
+        <div className={`tab-pane fade ${isActive ? 'show active' : ''}`} id="wizardStepCustomer" role="tabpanel" aria-labelledby="wizardTabCustomer">
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
                     <h6 className="mb-4 text-uppercase text-body-secondary">Step X</h6>
@@ -63,8 +67,8 @@ export default function StepCustomerTrack({ onPreviousStep }) {
 
             <div className="row justify-content-center">
                 <div className="col-12 col-md-10 col-lg-8">
-                      {/* Description input */}
-                      <div className="mb-5">
+                    {/* Description input */}
+                    <div className="mb-5">
                         <label className="form-label" htmlFor="description">Description</label>
                         <textarea
                             className="form-control"
