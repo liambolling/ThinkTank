@@ -1,7 +1,7 @@
-import { TAlENT_TANK_TYPE, PITCH_TANK_TYPE, PRODUCT_TANK_TYPE } from "../util/constants";
-import JEFF_BEZOS_PROFILE from "./product/jeffBezos";
-import PATTY_MCCORD_PROFILE from "./talent/pattyMcCord";
-import REID_HOFFMAN_PROFILE from "./talent/reidHoffman";
+const { TAlENT_TANK_TYPE, PITCH_TANK_TYPE, PRODUCT_TANK_TYPE } = require("../util/constants");
+const JEFF_BEZOS_PROFILE = require("./product/jeffBezos");
+const PATTY_MCCORD_PROFILE = require("./talent/pattyMcCord");
+const REID_HOFFMAN_PROFILE = require("./talent/reidHoffman");
 const { constructTalentPrompt } = require("./talent/constructTalentPrompt");
 const { constructPitchPrompt } = require("./pitch/constructPitchPrompt");
 const { constructProductPrompt } = require("./product/constructProductPrompt");
