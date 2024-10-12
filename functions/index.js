@@ -18,7 +18,7 @@ const openaiClient = new OpenAIApi({
 });
 
 const validateRequestBody = (request, response) => {
-    const { Tank, JobDescription, Links, VCList } = request.body.data;
+    const { Tank, JobDescription, Description, Links, VCList } = request.body.data;
     
     // Validate required fields
     if (!Tank) {
@@ -48,14 +48,18 @@ const validateRequestBody = (request, response) => {
         if (!Links) {
             return response.status(BAD_REQUEST_STATUS_CODE).send('Links are required for Product tank');
         }
+
+        if (!Description) {
+            return response.status(BAD_REQUEST_STATUS_CODE).send('A Description is required for Product tank');
+        }
     }
 
     return null;
 }
 
-const constructPrompt = (Tank, JobDescription, Links, VCList) => {
+const constructPrompt = (Tank, JobDescription, Description, Links, VCList) => {
     // get the initial prompt based on the tank type
-    const tankPrompt = constructTankPrompt(Tank, JobDescription, Links, VCList);
+    const tankPrompt = constructTankPrompt(Tank, JobDescription, Description, Links, VCList);
     
     console.log(`Finished constructing ${Tank} Tank Prompt`);
     return tankPrompt;
@@ -75,10 +79,10 @@ exports.createTeam = onRequest(async (req, res) => {
         return requestValidationResponse;
     }
 
-    const { Tank, JobDescription, Links, VCList } = req.body.data;
+    const { Tank, JobDescription, Description, Links, VCList } = req.body.data;
     
     // Construct the complete message to send to OpenAI
-    const prompt = constructPrompt(Tank, JobDescription, Links, VCList);
+    const prompt = constructPrompt(Tank, JobDescription, Description, Links, VCList);
     try {
         const openAIResponse = await openaiClient.chat.completions.create({
             model: OPENAI_MODEL,

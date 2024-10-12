@@ -118,7 +118,7 @@ export default function StepPitchDeckRoast({ onPreviousStep }) {
                                         Saving...
                                     </>
                                 ) : (
-                                    'Submit'
+                                    'Setup the Team'
                                 )}
                             </button>
                         </div>
