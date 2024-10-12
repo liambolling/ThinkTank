@@ -14,6 +14,7 @@ const teamMembers = [
 
 export default function TeamMembersPage() {
 
+  const [chatMessages, setChatMessages] = useState([]);
 
   const handleContinue = async () => {
     try {
@@ -48,13 +49,66 @@ export default function TeamMembersPage() {
       ]
 
       const result = await createScript({ participants, topic });
+      console.log(result);
       console.log('Script created:', result.data);
+
+      setChatMessages(result.data);
+
       // Handle the result as needed
     } catch (error) {
       console.error('Error creating script:', error);
       // Handle the error as needed
     }
   };
+
+
+
+  const ChatDiscussion = ({ messages }) => {
+    return (
+      <>
+      {messages.map((message, index) => (
+          <div className="comment mb-3">
+            <div className="row">
+              <div className="col-auto">
+                <a className="avatar avatar-sm" href="profile-posts.html">
+                <Image
+                          src="/bot.png"
+                          alt="Card image"
+                          width={100}
+                          height={100}
+                          layout="responsive"
+                          quality={100}
+                          priority
+                        /> 
+                </a>
+              </div>
+              <div className="col ms-n2">
+                <div className="comment-body">
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="comment-title">
+                        {message.participant}
+                      </h5>
+                    </div>
+                    <div className="col-auto">
+                      <small className="comment-time">
+                        11:12
+                      </small>
+                    </div>
+                  </div>
+                  <p className="comment-text">
+                    {message.text}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+      </>
+    );
+  };
+
 
 
   return (
@@ -113,28 +167,36 @@ export default function TeamMembersPage() {
 
             ))}
 
+          </div>
 
+
+          <div className='col-8 card'>
+            <hr className="my-5" />
+            {chatMessages.length > 0 && (
+              <div className="mb-5">
+                <h3>Chat Discussion</h3>
+                <ChatDiscussion messages={chatMessages} />
+              </div>
+            )}
           </div>
 
 
           <div className='col-8'>
-            <hr class="my-5"></hr>
-
-            <div class="nav row align-items-center">
-              <div class="col-auto">
+            <hr className="my-5"></hr>
+            <div className="nav row align-items-center">
+              <div className="col-auto">
                 <button className="btn btn-lg btn-white" type="button">
                   Back
                 </button>
               </div>
-              <div class="col text-center">
-                <h6 class="text-uppercase text-body-secondary mb-0">Let's start the chatbot</h6>
+              <div className="col text-center">
+                <h6 className="text-uppercase text-body-secondary mb-0">Let's start the chatbot</h6>
               </div>
-              <div class="col-auto">
-                <a class="btn btn-lg btn-primary" onClick={handleContinue} data-toggle="wizard" href="#wizardStepTwo">Continue</a>
+              <div className="col-auto">
+                <a className="btn btn-lg btn-primary" onClick={handleContinue} data-toggle="wizard" href="#wizardStepTwo">Continue</a>
               </div>
             </div>
           </div>
-
         </div>
 
 

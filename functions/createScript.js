@@ -57,6 +57,8 @@ async function getChapters(topic, participants, imageUrl) {
 
 
 async function createChapterContent(chapter, description, participants, topic) {
+    console.log(chapter);
+    console.log(description);
     return await openaiClient.chat.completions.create({
         model: "gpt-4o",
         messages: [
@@ -66,6 +68,15 @@ async function createChapterContent(chapter, description, participants, topic) {
                     {
                         "type": "text",
                         "text": "Imagine you are observing a conversation in a focus group Room with Participants discussing the Topic. Your goal is to create the full script for a Chapter in the conversation about the Topic. Make sure this conversation for this Chapter is comprehensive and thorough."
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Principles for a good conversation script: Don’t sound too preachy. Make it very conversational, like people speaking around a room. Have someone naturally introduce the topic. Each participant should always have their own thoughts and opinions, which means they may or may not agree with each other. Don’t turn this into a conversation where everyone just agreed with each other, make it engaging and fun to listen to or read. Make it high energy. We want to get Participants true opinions in a very conversational way. Make sure the script is not too short in total content but you can have multiple speaking, interrupting each other or saying small human touches such brief agreements. Put human noises in the script where humans would make noises such as ums or hms."
                     }
                 ]
             },
@@ -92,7 +103,7 @@ async function createChapterContent(chapter, description, participants, topic) {
                 "content": [
                     {
                         "type": "text",
-                        "text": `Participants in the Room: ${participants.join(', ')}`
+                        "text": `Participants in the Room: ${JSON.stringify(participants)}`
                     }
                 ]
             },
@@ -119,7 +130,6 @@ exports.createScript = onRequest(async (req, res) => {
     try {
         const { topic, participants } = req.body.data;
 
-
         if (!topic || !participants || !Array.isArray(participants)) {
             return res.status(400).json({ error: 'Invalid input. Please provide topic, participants array, and imageUrl.' });
         }
@@ -127,20 +137,25 @@ exports.createScript = onRequest(async (req, res) => {
         const response = await getChapters(topic, participants);
         console.log(response.choices[0].message.content);
 
-        var chaptersArray = response.choices[0].message.content.chapters
+        const contentObject = JSON.parse(response.choices[0].message.content);
+        const chaptersArray = contentObject.chapters;
         console.log(chaptersArray);
+
+
 
         // DEBUG ONLY ONE OF THEM
         const chapter = chaptersArray[0];
+        console.log(chapter);
         const chapterContent = await createChapterContent(
             chapter.chapter_title,
             chapter.description,
             participants,
             topic
         );
-        console.log(chapterContent.choices[0].message.content.conversation_script);
+        const chapterContentReturn = JSON.parse(chapterContent.choices[0].message.content);
+        const chapterContentArray = chapterContentReturn.conversation_script;
+        console.log(chapterContentArray);
         
-
 
         // for (const chapter of chaptersArray) {
         //     const chapterContent = await createChapterContent(
@@ -158,6 +173,11 @@ exports.createScript = onRequest(async (req, res) => {
         //     });
         // }
 
+
+        res.status(200).json({
+            success: true,
+            data: chapterContentArray
+        });
 
 
     } catch (error) {
