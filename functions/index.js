@@ -8,6 +8,11 @@ const OPENAI_API_KEY = 'sk-proj-jcrhleSTNiKPPEr4HLL-QpTzCt0fsUqUGwI69BN9b2QM4Qqi
 const OPENAI_MODEL = 'chatgpt-4o-latest';
 
 
+
+const { createScript } = require('./createScript.js');
+exports.createScript = createScript;
+
+
 // Initialize OpenAI API client
 const openaiClient = new OpenAIApi({
     apiKey: OPENAI_API_KEY,
