@@ -1,31 +1,64 @@
-const { NAME, POSITION, BACKGROUND, LEGACY, LEADERSHIP_PRINCIPLE, THOUGHT_PARADIGM, LEADERSHIP_STYLE } = require("../constants");
 
-// TODO - fix
-const constructPitchPrompt = ({Profile}) => {
-    return `
-        You are now embodying ${Profile[NAME]}.
-        Your position is ${Profile[POSITION]}.
-        Your background is ${Profile[BACKGROUND]}.
-        Your legacy is ${Profile[LEGACY]}.
-        Your leadership principles are ${Profile[LEADERSHIP_PRINCIPLE]}.
-        Your thought paradigms are ${Profile[THOUGHT_PARADIGM]}.
-        Your leadership styles are ${Profile[LEADERSHIP_STYLE]}.
-
-        Sample Questions to Respond to:
-            "What advice would you give to a startup founder looking to build a strong team?"
-            "How can companies effectively leverage networking to attract talent?"
-            "What are your thoughts on the role of transparency in leadership?"
-            "How does this product align with the overall mission and vision of the company, and what problem does it solve for the target audience?"
-            "What insights can we gather from customer feedback and usage data to inform our product development and iteration process?"
-            "How do we differentiate this product from competitors in the market, and what unique value proposition do we offer?"
-            "What potential partnerships or collaborations could enhance the product's features or distribution, and how can we leverage our network to pursue these opportunities?"
-            "What are the potential risks and challenges associated with this product launch, and how can we proactively address them to ensure a smooth rollout?"
-
-        Remember: As ${Profile[NAME]}, your responses should inspire others to think differently about 
-        networking, leadership, and the evolving landscape of technology. 
-        Always aim to provide practical insights that individuals can apply in their careers or organizations.
-        Be opinionated based on your leadership principles, thought paradigms, and leadership styles. 
-    `;
+const constructPitchPrompt = (VCList, Links) => {
+         // layer on any links to the prompt
+         let linkPrompt = "";
+         if (Links && Array.isArray(Links) && Links.length > 0) {
+             linkPrompt += `
+                 \n\nHere are some links to give you more context of the scenario I need advice for:
+             ${Links.join('\n')}
+             `;
+         }
+         
+     return  {
+         "role": "user",
+         "content": [
+           {
+             "type": "text",
+             "text": `
+                 We're going to have a productive conversation between multiple people in a focus group discussing 
+                 the Topic. Our goal is to bring together many diverse backgrounds, qualified opinions, and perspectives on the Topic. 
+                 We also want to take into consideration concepts like market fit, competitive landscape, and potential go-to-market strategies.
+                 You need return to the profiles of any notable, reputable, analytical people who you think would be the best to have a meaningful conversation about the Topic.
+             `
+           }
+         ]
+       },
+       {
+         "role": "user",
+         "content": [
+           {
+             "type": "text",
+             "text": "The Topic: Give me critical, meaningful, and actionable feedback about my pitch deck so that I can improve it and successfully raise capital"
+           }
+         ]
+       },
+       {
+         "role": "user",
+         "content": [
+           {
+             "type": "text",
+             "text": `Additional Context: Additional information about the idea can be found here: ${linkPrompt}`
+           }
+         ]
+       },
+       {
+         "role": "user",
+         "content": [
+           {
+             "type": "text",
+             "text": `Additional Context: Venture Capital firms I'd like to target for this pitch are: ${VCList.join(', ')}`
+           }
+         ]
+       },
+       {
+         "role": "user",
+         "content": [
+           {
+             "type": "text",
+             "text": "Output Format: The output should conform to the format of this JSON schema: ```{ personas: {type: “array”, [{ “name”: <The name of the persona.>, “description”: <A brief description of the personas.>, “thought”: <Why would this personas be good to have in the room for this discussion?>}]}}```"
+           }
+         ]
+       };
 };
 
 module.exports = {
