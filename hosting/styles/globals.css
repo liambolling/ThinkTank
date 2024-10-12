@@ -1,0 +1,10 @@
+.max-height-300 {
+    max-height: 300px;
+}
+
+.btn-link.text-muted:hover,
+.btn-link.text-muted:focus {
+  color: #0056b3 !important; /* Change this to your preferred hover color */
+  text-decoration: none;
+  box-shadow: none;
+}
