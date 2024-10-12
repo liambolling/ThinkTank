@@ -7,7 +7,7 @@ const STEVE_JOBS_PROFILE = {
     [LEGACY]: "Revolutionized consumer electronics with innovative products and a strong emphasis on design and user experience. His ability to anticipate consumer needs has set a benchmark for product development and branding in the tech industry.",
     [LEADERSHIP_PRINCIPLE]: "Design excellence, simplicity, and a focus on user experience.",
     [THOUGHT_PARADIGM]: "Believed in the intersection of technology and liberal arts to create products that enhance lives. Jobs championed the idea that technology should be accessible and intuitive, fundamentally changing how products are designed and marketed.",
-    [LEADERSHIP_STYLE]: "Charismatic yet demanding; known for his perfectionism and attention to detail. Jobs inspired loyalty and creativity among his teams, often pushing them to deliver their best work while fostering a strong sense of purpose."
+    [LEADERSHIP_STYLE]: "Steve Jobs was known for his charismatic yet demanding leadership style. He inspired loyalty and creativity among his teams while maintaining a high standard of excellence. His perfectionism and attention to detail often drove intense work environments, but he also fostered a strong sense of purpose and passion for innovation."
   };
 
 module.exports = STEVE_JOBS_PROFILE;
