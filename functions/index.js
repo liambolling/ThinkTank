@@ -28,7 +28,7 @@ const validateRequestBody = (request, response) => {
     if (Tank === TAlENT_TANK_TYPE) {
         // requires JobDescription
         if (!JobDescription) {
-            return response.status(BAD_REQUEST_STATUS_CODE).send('JobDescription is required for Talent tank');
+            return response.status(BAD_REQUEST_STATUS_CODE).send('Job Description is required for Talent tank');
         }
     }
 
@@ -56,7 +56,7 @@ const constructPrompt = (Tank, JobDescription, Links, VCList) => {
 }
 
 
-exports.startTank = onRequest(async (req, res) => {
+exports.createTeam = onRequest(async (req, res) => {
     // Ensure the function is only invoked with POST requests
     if (req.method !== 'POST') {
         return res.status(ERROR_STATUS_CODE).send('Method Not Allowed');
