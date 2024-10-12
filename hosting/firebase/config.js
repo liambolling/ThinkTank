@@ -21,7 +21,7 @@ const firestore = getFirestore(app);
 const functions = getFunctions(app);
 const AuthContext = createContext();
 
-connectFunctionsEmulator(functions, 'localhost', 5002);
+connectFunctionsEmulator(functions, 'localhost', 5003);
 connectAuthEmulator(auth, "http://127.0.0.1:9099");
 connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
 

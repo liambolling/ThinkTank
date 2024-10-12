@@ -10,6 +10,11 @@ const OPENAI_MODEL = 'chatgpt-4o-latest';
 const OPENAI_SYSTEM_ROLE = 'system';
 const OPENAI_USER_ROLE = 'user';
 
+
+const { createScript } = require('./createScript.js');
+exports.createScript = createScript;
+
+
 // Initialize OpenAI API client
 const openaiClient = new OpenAIApi({
     apiKey: OPENAI_API_KEY,

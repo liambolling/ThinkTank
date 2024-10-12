@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+
 // Sample array of team members (chatbots)
 const teamMembers = [
   { id: 1, name: 'AI Assistant', description: 'Your friendly AI assistant for general queries.' },
@@ -10,6 +13,50 @@ const teamMembers = [
 ];
 
 export default function TeamMembersPage() {
+
+
+  const handleContinue = async () => {
+    try {
+      const functions = getFunctions();
+      const createScript = httpsCallable(functions, 'createScript');
+      const topic = "Should we stop restocking the fridge with eggs?"
+      const participants = [
+        {
+          "name": "Technical Hiring Manager",
+          "description": "An experienced hiring manager specializing in technical roles within the technology sector.",
+        },
+        {
+          "name": "Art Director from Marketing Department",
+          "description": "A senior figure in the marketing department familiar with creative leadership and team dynamics.",
+        },
+        {
+          "name": "Senior Hardware Engineer",
+          "description": "A seasoned engineer within the company who understands the specific technical requirements and standards the role demands.",
+        },
+        {
+          "name": "HR Manager",
+          "description": "Human resources expert who understands the company's culture and hiring processes.",
+        },
+        {
+          "name": "Diversity and Inclusion Officer",
+          "description": "An expert in fostering inclusive talent acquisition strategies and company culture.",
+        },
+        {
+          "name": "Current Team Member",
+          "description": "A member of the existing team who will work directly with the new hire.",
+        }
+      ]
+
+      const result = await createScript({ participants, topic });
+      console.log('Script created:', result.data);
+      // Handle the result as needed
+    } catch (error) {
+      console.error('Error creating script:', error);
+      // Handle the error as needed
+    }
+  };
+
+
   return (
     <div className="main-content">
       <div className="container-lg">
@@ -83,7 +130,7 @@ export default function TeamMembersPage() {
                 <h6 class="text-uppercase text-body-secondary mb-0">Let's start the chatbot</h6>
               </div>
               <div class="col-auto">
-                <a class="btn btn-lg btn-primary" data-toggle="wizard" href="#wizardStepTwo">Continue</a>
+                <a class="btn btn-lg btn-primary" onClick={handleContinue} data-toggle="wizard" href="#wizardStepTwo">Continue</a>
               </div>
             </div>
           </div>
