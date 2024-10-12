@@ -64,7 +64,6 @@ exports.startTank = onRequest(async (req, res) => {
         // TODO - ask Liam
         const openAIResponse = await openaiClient.chat.completions.create({
             model: OPENAI_MODEL,
-            // messages: [{ role: OPENAI_ROLE, content: formattedMessage }],
             messages: [
                 {
                   "role": OPENAI_SYSTEM_ROLE,
