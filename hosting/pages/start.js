@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
-
-import Image from 'next/image';
 import StepOne from '../components/onboarding_stepOne';
 import StepHiringTrack from '../components/onboarding_hiringTrack';
 import StepCustomerTrack from '../components/onboarding_customerTrack';
