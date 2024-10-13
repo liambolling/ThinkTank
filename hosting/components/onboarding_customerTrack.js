@@ -6,7 +6,7 @@ import { PRODUCT_TANK_TYPE } from '../../functions/util/constants';
 const functions = getFunctions();
 const createTeamFunction = httpsCallable(functions, 'createTeam');
 
-export default function StepCustomerTrack({ onPreviousStep, onComplete }) {
+export default function StepCustomerTrack({ onPreviousStep, isActive, onComplete }) {
     const [links, setLinks] = useState(''); // State for list of links
     const [file, setFile] = useState(null); // State for file upload
     const [description, setDescription] = useState(''); // State for description text
@@ -31,16 +31,21 @@ export default function StepCustomerTrack({ onPreviousStep, onComplete }) {
             formData.append('file', file);
             formData.append('description', description);
 
+
             // Call Firebase function with the inputs
-            await createTeamFunction({
+            var result = await createTeamFunction({
                 Tank: PRODUCT_TANK_TYPE,
                 Links: formData.get('links').split(',').map(link => link.trim()), // Split links by comma and trim spaces
                 File: formData.get('file'),
                 Description: formData.get('description'),
             });
 
+            const messageContent = JSON.parse(result.data.message.content);
+            console.log(messageContent);
+            console.log(messageContent.personas);
+
             // Assuming the result contains the team members
-            onComplete(result.data.teamMembers);
+            onComplete(messageContent.personas);
 
             // Navigate to the generated bots page on success
             router.push('/start?step=generatedBots');

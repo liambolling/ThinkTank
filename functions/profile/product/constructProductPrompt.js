@@ -14,10 +14,7 @@ return  {
     {
       "type": "text",
       "text": `
-          We're going to have a meaningful and productive conversation between multiple people in a focus group discussing 
-          the Topic. Our goal is to bring together many diverse backgrounds, qualified opinions, and perspectives on the Topic.
-          We also want to take into consideration concepts like market fit, competitive landscape, and potential go-to-market strategies.
-          You need return to the profiles of any notable, reputable people who you think would be the best to have a fruitful conversation about the Topic.
+          We're going to have a podcast-like conversation between multiple people in a focus group discussing the Topic. Our goal is to bring together many backgrounds and opinions and perspectives to this discussion on the Topic. You need to return to create profiles of who you think would be the best to have a fruitful conversation about the Topic.
       `
     }
   ]
@@ -27,7 +24,7 @@ return  {
   "content": [
     {
       "type": "text",
-      "text": "The Topic: Give me critical, meaningful, and actionable feedback about my product idea so that I can improve it and successfully execute on it"
+      "text": "The Topic: I need feedback about my product idea"
     }
   ]
 },

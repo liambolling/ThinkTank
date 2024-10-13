@@ -6,7 +6,7 @@ import { PITCH_TANK_TYPE } from '../../functions/util/constants';
 const functions = getFunctions();
 const createTeamFunction = httpsCallable(functions, 'createTeam');
 
-export default function StepPitchDeckRoast({ onPreviousStep, onComplete }) {
+export default function StepPitchDeckRoast({ onPreviousStep, isActive, onComplete }) {
     const [file, setFile] = useState(null); // State for pitch deck file
     const [targetVCs, setTargetVCs] = useState(''); // State for target VCs
     const [isLoading, setIsLoading] = useState(false);
