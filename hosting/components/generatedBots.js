@@ -1,10 +1,8 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 
-export default function GeneratedBots({ teamMembers, onContinue }) {
-
-    const router = useRouter();
+export default function GeneratedBots({ teamMembers, onContinue, isLoading }) {
+  
     return (
         <div className='col-12 col-md-10 col-lg-8'>
             {teamMembers.map((member) => (
@@ -39,7 +37,15 @@ export default function GeneratedBots({ teamMembers, onContinue }) {
 
             <div className="text-center mt-4">
                 <button className="btn btn-primary" onClick={onContinue}>
-                    Start Chat Discussion
+                   
+                {isLoading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        Loading
+                                    </>
+                                ) : (
+                                    'Start Chat Discussion'
+                                )}
                 </button>
             </div>
         </div>

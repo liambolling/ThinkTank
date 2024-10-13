@@ -18,6 +18,7 @@ export default function startPage() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
 
   const goToNextStep = (nextStep) => {
     setIsTransitioning(true);
@@ -50,6 +51,8 @@ export default function startPage() {
 
 
   const handleContinue = async () => {
+    setIsLoading(true); // Set loading to true
+
     try {
       const functions = getFunctions();
       const createScript = httpsCallable(functions, 'createScript');
@@ -83,7 +86,7 @@ export default function startPage() {
       case 'pitchTrack':
         return <StepPitchDeckRoast onPreviousStep={goToPreviousStep} onComplete={setTeamMembers} isActive={!isTransitioning} />;
       case 'generatedBots':
-        return <GeneratedBots teamMembers={teamMembers} onContinue={handleContinue} />;
+        return <GeneratedBots teamMembers={teamMembers} onContinue={handleContinue} isLoading={isLoading} />;
       case 'chatDiscussion':
         return <ChatDiscussion messages={chatMessages} setMessages={setChatMessages} />;
       default:
