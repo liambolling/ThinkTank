@@ -1,7 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const OpenAIApi = require('openai');
 
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '';
 
 const openaiClient = new OpenAIApi({
     apiKey: OPENAI_API_KEY,
