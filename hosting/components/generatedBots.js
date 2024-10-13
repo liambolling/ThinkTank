@@ -36,16 +36,15 @@ export default function GeneratedBots({ teamMembers, onContinue, isLoading }) {
             ))}
 
             <div className="text-center mt-4">
-                <button className="btn btn-primary" onClick={onContinue}>
-                   
+                <button className="btn btn-primary" onClick={onContinue}>  
                 {isLoading ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        Loading
-                                    </>
-                                ) : (
-                                    'Start Chat Discussion'
-                                )}
+                    <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Loading
+                    </>
+                ) : (
+                    'Start Chat Discussion'
+                )}
                 </button>
             </div>
         </div>
