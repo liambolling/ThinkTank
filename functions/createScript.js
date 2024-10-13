@@ -25,7 +25,19 @@ async function getChapters(topic, participants, imageUrl) {
                 "content": [
                     {
                         "type": "text",
-                        "text": `The Topic: "${topic}"`
+                        "text": `The Topic: I need feedback about my product idea`
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        type: "text", text: `Additional Context: Additional information about the product can be found here`
+                    },
+                    {
+                        type: "image_url",
+                        image_url: { "url": "https://i.imgur.com/VP3XriC.png", "detail": "high" }
                     }
                 ]
             },
@@ -84,6 +96,18 @@ async function createChapterContent(chapter, description, participants, topic) {
                 "role": "user",
                 "content": [
                     {
+                        type: "text", text: `Additional Context: Additional information about the product can be found here`
+                    },
+                    {
+                        type: "image_url",
+                        image_url: { "url": "https://i.imgur.com/VP3XriC.png", "detail": "high" }
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
                         "type": "text",
                         "text": `The Chapter: "${chapter}". Description of the Chapter: "${description}"`
                     }
@@ -94,7 +118,7 @@ async function createChapterContent(chapter, description, participants, topic) {
                 "content": [
                     {
                         "type": "text",
-                        "text": `The Overall Topic of all Chapters: "${topic}"`
+                        "text": `The Overall Topic of all Chapters: I need feedback about my product idea`
                     }
                 ]
             },
@@ -155,7 +179,7 @@ exports.createScript = onRequest(async (req, res) => {
         const chapterContentReturn = JSON.parse(chapterContent.choices[0].message.content);
         const chapterContentArray = chapterContentReturn.conversation_script;
         console.log(chapterContentArray);
-        
+
 
         // for (const chapter of chaptersArray) {
         //     const chapterContent = await createChapterContent(

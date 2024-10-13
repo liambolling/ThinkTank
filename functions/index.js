@@ -83,6 +83,7 @@ exports.createTeam = onRequest(async (req, res) => {
     
     // Construct the complete message to send to OpenAI
     const prompt = constructPrompt(Tank, JobDescription, Description, Links, VCList);
+    console.log(prompt);
     try {
         const openAIResponse = await openaiClient.chat.completions.create({
             model: OPENAI_MODEL,
@@ -90,7 +91,7 @@ exports.createTeam = onRequest(async (req, res) => {
             response_format: {
                 "type": "json_object"
             },
-            messages: [prompt]
+            messages: prompt
         });
 
         // Extract the reply from OpenAI's response
