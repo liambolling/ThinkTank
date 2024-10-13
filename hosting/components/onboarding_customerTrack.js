@@ -79,7 +79,7 @@ export default function StepCustomerTrack({ onPreviousStep, isActive, onComplete
                             className="form-control"
                             id="description"
                             rows="4"
-                            placeholder="Enter a detailed description..."
+                            placeholder="Enter a detailed description of your product"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></textarea>
@@ -110,7 +110,7 @@ export default function StepCustomerTrack({ onPreviousStep, isActive, onComplete
                             className="form-control"
                             id="links"
                             rows="3"
-                            placeholder="Enter a comma-separated list of links..."
+                            placeholder="Provide any links you think are helpful"
                             value={links}
                             onChange={(e) => setLinks(e.target.value)}
                         ></textarea>
