@@ -30,14 +30,18 @@ export default function StepPitchDeckRoast({ onPreviousStep, onComplete }) {
             formData.append('targetVCs', targetVCs);
 
             // Call Firebase function with FormData
-            await createTeamFunction({
+            var result =  await createTeamFunction({
                 Tank: PITCH_TANK_TYPE,
                 file: formData.get('file'),
                 VCList: formData.get('targetVCs'),
             });
 
+            const messageContent = JSON.parse(result.data.message.content);
+            console.log(messageContent);
+            console.log(messageContent.personas);
+
             // Assuming the result contains the team members
-            onComplete(result.data.teamMembers);
+            onComplete(messageContent.personas);
 
             // Navigate to the generated bots page on success
             router.push('/start?step=generatedBots');

@@ -29,10 +29,8 @@ export default function StepHiringTrack({ onPreviousStep, isActive, onComplete  
             });
 
             const messageContent = JSON.parse(result.data.message.content);
-        console.log(messageContent);
-        console.log(messageContent.personas);
-
-            
+            console.log(messageContent);
+            console.log(messageContent.personas);
 
             // Assuming the result contains the team members
             onComplete(messageContent.personas);

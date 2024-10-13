@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+
 import Image from 'next/image';
 import StepOne from '../components/onboarding_stepOne';
 import StepHiringTrack from '../components/onboarding_hiringTrack';
@@ -48,6 +51,29 @@ export default function startPage() {
   }, [router.query.step]);
 
 
+  const handleContinue = async () => {
+    try {
+      const functions = getFunctions();
+      const createScript = httpsCallable(functions, 'createScript');
+      const topic = "Should we stop restocking the fridge with eggs?";
+
+      // Use the teamMembers state instead of hardcoded data
+      const participants = teamMembers.map(member => ({
+        name: member.name,
+        description: member.description
+      }));
+
+      const result = await createScript({ participants, topic });
+      console.log('Script created:', result.data);
+
+      setChatMessages(result.data);
+      goToNextStep('chatDiscussion');
+    } catch (error) {
+      console.error('Error creating script:', error);
+      // Handle the error as needed
+    }
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 'stepOne':
@@ -59,7 +85,7 @@ export default function startPage() {
       case 'pitchTrack':
         return <StepPitchDeckRoast onPreviousStep={goToPreviousStep} onComplete={setTeamMembers} isActive={!isTransitioning} />;
       case 'generatedBots':
-        return <GeneratedBots teamMembers={teamMembers} />;
+        return <GeneratedBots teamMembers={teamMembers} onContinue={handleContinue} />;
       case 'chatDiscussion':
         return <ChatDiscussion messages={chatMessages} setMessages={setChatMessages} />;
       default:

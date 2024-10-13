@@ -2,14 +2,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 
-export default function GeneratedBots({ teamMembers }) {
+export default function GeneratedBots({ teamMembers, onContinue }) {
 
     const router = useRouter();
-
-    const handleStartChat = () => {
-        router.push('/start?step=chatDiscussion');
-    };
-
     return (
         <div className='col-12 col-md-10 col-lg-8'>
             {teamMembers.map((member) => (
@@ -43,7 +38,7 @@ export default function GeneratedBots({ teamMembers }) {
             ))}
 
             <div className="text-center mt-4">
-                <button className="btn btn-primary" onClick={handleStartChat}>
+                <button className="btn btn-primary" onClick={onContinue}>
                     Start Chat Discussion
                 </button>
             </div>
