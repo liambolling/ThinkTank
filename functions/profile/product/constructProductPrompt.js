@@ -51,7 +51,7 @@ return  {
   "content": [
     {
       "type": "text",
-      "text": "Output Format: The output should conform to the format of this JSON schema: ```{ personas: {type: “array”, [{ “name”: <The name of the persona.>, “description”: <A brief description of the personas.>, “thought”: <Why would this personas be good to have in the room for this discussion?>}]}}```"
+      "text": "Output Format: The output should conform to the format of this JSON schema: ```{ personas: {type: “array”, [{ “name”: <A fictitious human name of the person.>, “description”: <A couple sentences about the person, where they are from, what they care about, their motivations, etc.>, “thought”: <Why would this persona be good to have in the room for this discussion?>}]}}```"
     }
   ]
 };
